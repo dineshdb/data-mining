@@ -33,10 +33,11 @@ class NaiveBayes:
     def __initFeatureProbabilites(self):
         for attribute in self.__attributes:
             data = {}
+            attributeCounts = len(self.__getAttributeValues(attribute))#for laplace correction
             for attributeValue in self.__getAttributeValues(attribute):
                 probabilities = {}
                 for classValue in self.__classes:
-                    probability = self.__getProbability(self.__getCounts((attribute,attributeValue),(self.__classAttribute,classValue)),self.__classCounts[classValue])
+                    probability = self.__getProbability(1+self.__getCounts((attribute,attributeValue),(self.__classAttribute,classValue)),attributeCounts+self.__classCounts[classValue])
                     probabilities[classValue] = probability
                 data[attributeValue] = probabilities
             self.__featureProbabilites[attribute] = data
